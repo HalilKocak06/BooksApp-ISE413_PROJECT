@@ -1,4 +1,4 @@
-﻿@model AuthorModel
+﻿@model BookModel
 
 @* Generated from Custom Template. *@
 @* Model namespace using directive should be added to _ViewImports.cshtml. *@
@@ -8,7 +8,7 @@
     var dateTimePickerClass = "datetimepicker";
 }
 @{
-    ViewData["Title"] = "Author Create";
+    ViewData["Title"] = "Book Create";
 }
 
 <div class="@containerDivClass">
@@ -34,10 +34,39 @@
 			</div>
         </div>
         <div class="row mb-3">
-            <label asp-for="Surname" class="col-2 col-form-label fw-bold"></label>
+            <label asp-for="NumberOfPages" class="col-2 col-form-label fw-bold"></label>
 			<div class="col-10">
-			    <input asp-for="Record.Surname" class="form-control" />
-				<span asp-validation-for="Record.Surname" class="text-danger"></span>
+			    <input asp-for="Record.NumberOfPages" class="form-control" />
+				<span asp-validation-for="Record.NumberOfPages" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+            <label asp-for="PublishDate" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+				<input asp-for="Record.PublishDate" class="form-control @dateTimePickerClass" type="text" />
+				<span asp-validation-for="Record.PublishDate" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+            <label asp-for="Price" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+			    <input asp-for="Record.Price" class="form-control" />
+				<span asp-validation-for="Record.Price" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+			<label asp-for="IsTopSeller" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10 pt-2">
+				<input class="form-check-input" asp-for="Record.IsTopSeller" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label asp-for="Author" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+				<select asp-for="Record.AuthorId" class="form-select" asp-items="ViewBag.AuthorId">
+					<option value="">-- Select --</option>
+				</select>
+				<span asp-validation-for="Record.AuthorId" class="text-danger"></span>
 			</div>
         </div>
 
@@ -63,4 +92,8 @@
 			</div>
         </div>
     </form>
-</div>  n 
+</div>  
+
+@section Scripts {
+    <partial name="_DateTimePicker" />
+}

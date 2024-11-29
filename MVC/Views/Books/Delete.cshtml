@@ -1,4 +1,4 @@
-﻿@model AuthorModel
+﻿@model BookModel
 
 @* Generated from Custom Template. *@
 @* Model namespace using directive should be added to _ViewImports.cshtml. *@
@@ -7,7 +7,7 @@
     var containerDivClass = "container";
 }
 @{
-    ViewData["Title"] = "Author Delete";
+    ViewData["Title"] = "Book Delete";
 }
 
 <div class="@containerDivClass">
@@ -36,10 +36,42 @@
     </div>
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            @Html.DisplayNameFor(model => model.Surname)
+            @Html.DisplayNameFor(model => model.NumberOfPages)
         </div>
         <div class="col-10">
-            @Html.DisplayFor(model => model.Surname)
+            @Html.DisplayFor(model => model.NumberOfPages)
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.PublishDate)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.PublishDate)
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.Price)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.Price)
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.IsTopSeller)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.IsTopSeller)
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.Author)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.Author)
         </div>
     </div>
 

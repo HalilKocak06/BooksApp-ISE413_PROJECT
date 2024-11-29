@@ -27,13 +27,13 @@ namespace BLL.Models
         public String Price => $"{Record.Price:C}";
 
         [DisplayName("Top Seller")]
-        public string IsTopSellerDisplay => Record.IsTopSeller ? "Yes" : "No";
+        public string IsTopSeller => Record.IsTopSeller ? "Yes" : "No";
 
         [DisplayName("Author ID")]
         public int AuthorId => Record.AuthorId;
 
         [DisplayName("Author Name")]
-        public string AuthorName => Record.Author?.Name ?? "Unknown";
+        public string Author => Record.Author?.Name ?? "Unknown";
 
     }
 
