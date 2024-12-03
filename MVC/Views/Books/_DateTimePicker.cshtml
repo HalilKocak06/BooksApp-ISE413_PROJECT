@@ -1,0 +1,17 @@
+﻿@* _DateTimePicker.cshtml *@
+<div class="input-group date" id="datetimepicker">
+    <input type="text" class="form-control" />
+    <span class="input-group-text">
+        <i class="fa fa-calendar"></i>
+    </span>
+</div>
+
+@section Scripts {
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker').datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm:ss'
+                });
+            });
+        </script>
+}

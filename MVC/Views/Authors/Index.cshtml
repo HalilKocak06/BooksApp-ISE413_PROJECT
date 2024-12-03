@@ -29,6 +29,9 @@
                     @Model.Count() record(s) found.
                 </div>
                 <div class="col-2 text-end">
+                    @*HTML: *@
+                    @* <a href="/Authors/Create">Create</a> *@
+                    @*Tag Helper: *@
                     <a asp-action="Create">Create</a>
                 </div>
             </div>
@@ -37,7 +40,7 @@
                     <tr>
                         <th>
                             @*HTML:*@
-                            Name
+                            @* Name *@
                             @*HTML Helper:*@
                             @Html.DisplayNameFor(model => model.Name) @*display name*@
                         </th>
@@ -51,18 +54,29 @@
 		            @foreach (var item in Model) {
 				        <tr>
 					        <td>
-						        @Html.DisplayFor(modelItem => item.Name)
+						        @Html.DisplayFor(modelItem => item.Name) @* value'sunu gösterir...' *@
 					        </td>
 					        <td>
-						        @Html.DisplayFor(modelItem => item.Surname)
+                                @Html.DisplayFor(modelItem => item.Surname) @* value'sunu gösterir...' *@
 					        </td>
 					        <td class="text-end w-25">
 
                                 @* HTML:*@
-                                <a href="/Author/Details/1">Details</a>
+                                <a href="/Authors/Details/1">Details</a>
                                 @*Tag Helper:*@
-						        <a asp-action="Details" asp-route-id="@item.Record.Id">Details</a>&nbsp;|&nbsp;
+						        <a asp-action="Details" asp-controller="Authors" asp-route-id="@item.Record.Id">Details</a>&nbsp;|&nbsp;
+
+                                &nbsp;|&nbsp;
+
+                                @* HTML:*@
+                                <a href="/Authors/Edit/1">Edit</a>
+                                @*Tag Helper:*@
 						        <a asp-action="Edit" asp-route-id="@item.Record.Id">Edit</a>&nbsp;|&nbsp;
+
+                                &nbsp;|&nbsp;
+                                @* HTML:*@
+                                <a href="/Authors/Delete/1">Delete</a>
+                                @*Tag Helper:*@
 						        <a asp-action="Delete" asp-route-id="@item.Record.Id">Delete</a>
 					        </td>
 				        </tr>
