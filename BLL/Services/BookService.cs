@@ -33,6 +33,7 @@ namespace BLL.Services
         public IQueryable<BookModel> Query()
         {
             return _db.Books
+                .Include(b => b.Author)
                 .OrderBy(b => b.Name)
                 .Select(b => new BookModel()
                 {

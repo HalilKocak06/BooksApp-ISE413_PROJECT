@@ -15,6 +15,8 @@ namespace BLL.DAL
         [StringLength(150)]
         public string Name { get; set; }
 
+        [Required]
+        [StringLength(150)]
         public string Surname { get; set; }
 
         public ICollection<Book> Books { get; set; } //Burada denmek istenen şu : Author'un birden çok kitabı olabilir .

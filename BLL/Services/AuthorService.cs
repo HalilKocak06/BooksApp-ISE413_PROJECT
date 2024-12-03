@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BLL.DAL;
 using BLL.Models;
 using BLL.Services.Bases;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
@@ -71,9 +72,16 @@ namespace BLL.Services
 
         public ServiceBase Delete(int id)
         {
-            var entity = _db.Authors.FirstOrDefault(a => a.Id == id);
-            if (entity == null)
-                return Error("Author Not found");
+            //var entity = _db.Authors.FirstOrDefault(a => a.Id == id);
+            //if (entity == null)
+            //    return Error("Author Not found");
+            //if (entity.Books != null && entity.Books.Count > 0)
+            //    return Error("There is a book exists!!")
+            var entity = _db.Authors.Include(b => b.Books).SingleOrDefault(a => a.Id == id);
+            if (entity is null)
+                return Error("Species can't be found!");
+            if (entity.Books.Any()) // Count > 0
+                return Error("Species has relational pets!");
 
             _db.Authors.Remove(entity);
             _db.SaveChanges();
