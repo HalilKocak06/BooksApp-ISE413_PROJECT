@@ -2,17 +2,39 @@ using BLL.DAL;
 using BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore; //Bu BLL dosyasýndaki EntityFrameworkCore.SqlServer'dan gelir.
+using BLL.Models;
+using BLL.Services.Bases;
+                                      //Bu sayede Appsettings'i hallederiz.
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+//AppSettings
+var appSettingsSection = builder.Configuration.GetSection(nameof(AppSettings)); //Bunun için Models'de appsetting oluþturduk.
+appSettingsSection.Bind(new AppSettings());
+
 //IOC Container:
-string connectionString = builder.Configuration.GetConnectionString("Db");
+//string connectionString = builder.Configuration.GetConnectionString("Db"); // Buna ihtiyaç yok çünkü Appsettings'den hallediyoruz artýk.
+var connectionString = builder.Configuration.GetConnectionString("Db"); //Bunu kullanmamýz gerekli ...
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IAuthorService, AuthorService>();
+
+
+builder.Services.AddScoped<IAuthorService, AuthorService>(); // AddSingleton, AddTransient
+
+////Way 1 : 
+//builder.Services.AddScoped<IBookService, BookService>();
+//builder.Services.AddScoped<IAuthorService, AuthorService>();
+
+//WAY 2 :
+
+builder.Services.AddScoped<IService<Book, BookModel>, BookService>();
+
+builder.Services.AddScoped<IService<Genre, GenreModel>, GenreService>();
+
+
+
 
 var app = builder.Build();
 

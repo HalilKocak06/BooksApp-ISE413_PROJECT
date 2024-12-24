@@ -11,19 +11,9 @@ using Microsoft.EntityFrameworkCore;
 namespace BLL.Services
 {
 
-    public interface IBookService
-    {
-        public IQueryable<BookModel> Query();
+    
 
-        public ServiceBase Create(Book record);
-
-        public ServiceBase Update(Book record);
-
-        public ServiceBase Delete(int id);
-
-    }
-
-    public class BookService : ServiceBase, IBookService
+    public class BookService : ServiceBase, IService<Book, BookModel>
     {
         public BookService(Db db) : base(db)
         {
@@ -34,6 +24,8 @@ namespace BLL.Services
         {
             return _db.Books
                 .Include(b => b.Author)
+                .Include(b => b.BookGenre) //Many to many için eklenildi.
+                .ThenInclude(bg => bg.Genre) //Many to many için ... BookModel'de eklediğimiz için.
                 .OrderBy(b => b.Name)
                 .Select(b => new BookModel()
                 {
@@ -50,11 +42,6 @@ namespace BLL.Services
 
             record.Name = record.Name.Trim();  //Boşlukları twmizler.
 
-            if (string.IsNullOrWhiteSpace(record.Name))  //Şimdi buradaki olay şu : Tabikide Book.cs'de zaten gereklilikleri giriyoruz ama o SaveChanges() zamanında çalıştığı için error almamak adına burada bunu yapmamız lazım.
-                return Error("Book name cannot be empty!");
-
-            if (!_db.Authors.Any(a => a.Id == record.AuthorId))   //Author id 'yi kontrol eder.
-                return Error("The specified author does not exist!");
 
             _db.Books.Add(record);
             _db.SaveChanges();
@@ -67,18 +54,19 @@ namespace BLL.Services
             if (_db.Books.Any(b => b.Id != record.Id && b.Name.ToUpper() == record.Name))
                 return Error("Book with the same name exists..."); // Aynı isimde kayıt var mı kontrol ediyoruz.
 
-            var entity = _db.Books.SingleOrDefault(b => b.Id == record.Id);
-
+            var entity = _db.Books.Include(b => b.BookGenre).SingleOrDefault(b => b.Id == record.Id);
 
             if (entity == null)
                 return Error("Book not found!");
 
+            _db.BookGenres.RemoveRange(entity.BookGenre);
             entity.Name = record.Name.Trim();
             entity.NumberOfPages = record.NumberOfPages;
             entity.PublishDate = record.PublishDate;
             entity.Price = record.Price;
             entity.IsTopSeller = record.IsTopSeller;
             entity.AuthorId = record.AuthorId;
+            entity.BookGenre = record.BookGenre;
 
             _db.Books.Update(entity);
             _db.SaveChanges();
@@ -88,13 +76,14 @@ namespace BLL.Services
         }
 
 
-
+        
         public ServiceBase Delete(int id)
         {
-            var entity = _db.Books.SingleOrDefault(b => b.Id == id);
+            var entity = _db.Books.Include(b => b.BookGenre).SingleOrDefault(b => b.Id == id);
 
             if (entity == null)
                 return Error("Book not Found!");
+            _db.BookGenres.RemoveRange(entity.BookGenre);
 
             _db.Books.Remove(entity);
             _db.SaveChanges();

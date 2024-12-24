@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using BLL.Controllers.Bases;
 using BLL.Services;
 using BLL.Models;
+using BLL.Services.Bases;
+using BLL.DAL;
 
 // Generated from Custom Template.
 
@@ -12,25 +14,25 @@ namespace MVC.Controllers
     public class BooksController : MvcController
     {
         // Service injections:
-        private readonly IBookService _bookService;
+        private readonly IService<Book, BookModel> _bookService;
         private readonly IAuthorService _authorService;
 
         /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-        //private readonly IManyToManyRecordService _ManyToManyRecordService;
+        private readonly IService<Genre,GenreModel> _genreService;
 
         public BooksController(
-			IBookService bookService
+			IService<Book, BookModel> bookService
             , IAuthorService authorService
 
             /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //, IManyToManyRecordService ManyToManyRecordService
+            , IService<Genre, GenreModel> genreService
         )
         {
             _bookService = bookService;
             _authorService = authorService;
 
             /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //_ManyToManyRecordService = ManyToManyRecordService;
+            _genreService = genreService;
         }
 
         // GET: Books
@@ -55,7 +57,7 @@ namespace MVC.Controllers
             ViewData["AuthorId"] = new SelectList(_authorService.Query().ToList(), "Record.Id", "Name");
             
             /* Can be uncommented and used for many to many relationships. ManyToManyRecord may be replaced with the related entiy name in the controller and views. */
-            //ViewBag.ManyToManyRecordIds = new MultiSelectList(_ManyToManyRecordService.Query().ToList(), "Record.Id", "Name");
+            ViewBag.GenreIds = new MultiSelectList(_genreService.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Books/Create

@@ -35,6 +35,13 @@ namespace BLL.Models
         [DisplayName("Author Name")]
         public string Author => Record.Author?.Name ?? "Unknown";
 
+        public string Genre => string.Join("<br>", Record.BookGenre?.Select(bg => bg.Genre?.Name + " " )); // + bg.Genre?.Surname, Bende Surname yok hocaya sor.
+        [DisplayName("Genres")]
+        public List<int> GenreIds
+        {
+            get => Record.BookGenre?.Select(bg => bg.GenreId).ToList();
+            set => Record.BookGenre = value.Select(v => new BookGenre() { GenreId = v }).ToList();  //Bu ikisi edit için işimize lazım.
+        }
     }
 
 }

@@ -57,8 +57,6 @@ namespace BLL.Services
         public ServiceBase Update(Author record)
         {
             var entity = _db.Authors.FirstOrDefault(a => a.Id == record.Id);
-            if (entity == null)
-                return Error("Author not found");
 
             entity.Name = record.Name.Trim();
             entity.Surname = record.Surname.Trim();
@@ -78,10 +76,8 @@ namespace BLL.Services
             //if (entity.Books != null && entity.Books.Count > 0)
             //    return Error("There is a book exists!!")
             var entity = _db.Authors.Include(b => b.Books).SingleOrDefault(a => a.Id == id);
-            if (entity is null)
-                return Error("Species can't be found!");
             if (entity.Books.Any()) // Count > 0
-                return Error("Species has relational pets!");
+                return Error("Author has relational pets!");
 
             _db.Authors.Remove(entity);
             _db.SaveChanges();

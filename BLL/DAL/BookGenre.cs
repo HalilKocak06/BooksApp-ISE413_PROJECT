@@ -12,9 +12,6 @@ namespace BLL.DAL
     {
         public int Id { get; set; }
 
-
-        [Required]
-        [StringLength(150)]
         public int BookId { get; set; }
 
         public int GenreId { get; set; }
