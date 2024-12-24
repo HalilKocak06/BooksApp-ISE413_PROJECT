@@ -14,9 +14,11 @@ namespace BLL.DAL
 
 
         [Required]
-        [StringLength(150)]
+        [StringLength(20)]
         public string UserName { get; set; }
 
+        [Required]
+        [StringLength(10)]
         public string Password { get; set; }
 
         public bool IsActive { get; set; }

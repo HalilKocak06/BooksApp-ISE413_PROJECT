@@ -32,6 +32,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>(); // AddSingleton, Ad
 builder.Services.AddScoped<IService<Book, BookModel>, BookService>();
 
 builder.Services.AddScoped<IService<Genre, GenreModel>, GenreService>();
+builder.Services.AddScoped<IService<User, UserModel>, UserService>();
 
 
 
