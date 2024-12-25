@@ -32,7 +32,13 @@
                     @*HTML: *@
                     @* <a href="/Books/Create">Create</a> *@
                     @*Tag Helper: *@
-                    <a asp-action="Create">Create</a>
+                    @if(User.IsInRole("Admin"))
+                    {
+
+
+                        <a asp-action="Create">Create</a>
+
+                    }
                 </div>
             </div>
             <table class="table table-striped table-hover">
@@ -63,45 +69,57 @@
                     </tr>
                 </thead>
                 <tbody>
-		            @foreach (var item in Model) {
-				        <tr>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.Name) @*Value*@
-					        </td>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.NumberOfPages)
-					        </td>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.PublishDate)
-					        </td>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.Price)
-					        </td>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.IsTopSeller)
-					        </td>
-					        <td>
-						        @Html.DisplayFor(modelItem => item.Author)
-					        </td>
-					        <td class="text-end w-25">
+                    @foreach (var item in Model) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name) @*Value*@
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumberOfPages)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PublishDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsTopSeller)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Author)
+                            </td>
+                            <td class="text-end w-25">
                                 @* HTML:*@
                                 @*<a href="/Books/Details/1">Details</a>*@
                                 @*Tag Helper:*@
-						        <a asp-action="Details" asp-route-id="@item.Record.Id">Details</a>&nbsp;|&nbsp;
 
-                                &nbsp;|&nbsp;
+                                @if(User.Identity.IsAuthenticated)
+                                {
 
-                                @* HTML:*@
-                                @*<a href="/Books/Edit/1">Edit</a>*@
-                                @*Tag Helper:*@
-						        <a asp-action="Edit" asp-route-id="@item.Record.Id">Edit</a>&nbsp;|&nbsp;
 
-                                &nbsp;|&nbsp;
+                                    <a asp-action="Details" asp-route-id="@item.Record.Id">Details</a>@: &nbsp;|&nbsp;
+                                    if (User.IsInRole("Admin"))
+                                    {
 
-                                @* HTML:*@
-                                @*<a href="/Books/Delete/1">Delete</a>*@
-                                @*Tag Helper:*@
-						        <a asp-action="Delete" asp-route-id="@item.Record.Id">Delete</a>
+
+                                        @: &nbsp;| &nbsp;
+
+                                        @* HTML:*@
+                                        @*<a href="/Books/Edit/1">Edit</a>*@
+                                        @*Tag Helper:*@
+                                        <a asp-action="Edit" asp-route-id="@item.Record.Id">Edit</a>
+                                        @: &nbsp;| &nbsp;
+
+                                        @: &nbsp;| &nbsp;
+
+                                        @* HTML:*@
+                                        @*<a href="/Books/Delete/1">Delete</a>*@
+                                        @*Tag Helper:*@
+                                        <a asp-action="Delete" asp-route-id="@item.Record.Id">Delete</a>
+                                    }
+
+                                    }
 					        </td>
 				        </tr>
 		            }

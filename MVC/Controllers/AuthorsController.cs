@@ -4,13 +4,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using BLL.Controllers.Bases;
 using BLL.Services;
 using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // Generated from Custom Template.
 
 namespace MVC.Controllers
 {
+    //WAY2:Hepsine yapar.
+    [Authorize(Roles = "Admin")]  //Bu sayede Author'a basıldığında önce login ekranı gelir.
+
     public class AuthorsController : MvcController
     {
+        
+
         // Service injections:
         private readonly IAuthorService _authorService;
 
@@ -31,6 +37,8 @@ namespace MVC.Controllers
         }
 
         // GET: Authors
+        //WAY1: Bu sadece Index'e yapıyor WAy2'da hepsine yapıyor.
+        //[Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             // Get collection service logic:
