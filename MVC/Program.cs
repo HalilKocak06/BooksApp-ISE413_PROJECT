@@ -35,6 +35,8 @@ builder.Services.AddScoped<IService<Book, BookModel>, BookService>();
 builder.Services.AddScoped<IService<Genre, GenreModel>, GenreService>();
 builder.Services.AddScoped<IService<User, UserModel>, UserService>();
 
+builder.Services.AddSingleton<HttpServiceBase, HttpService>(); //bu bir singleton'dur ve amacý 1 kez kullanýr ardýndan kapanýr. 1 Öðe için.
+
 
 //Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -46,6 +48,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     }
     );
+
+//Session:
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // default: 20 minutes // 20 dakika sonra session kapanýr.
+});
 
 
 
@@ -68,6 +77,10 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//Session
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
