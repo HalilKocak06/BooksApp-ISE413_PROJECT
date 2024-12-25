@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore; //Bu BLL dosyasýndaki EntityFrameworkCore.SqlServer'dan gelir.
 using BLL.Models;
 using BLL.Services.Bases;
-                                      //Bu sayede Appsettings'i hallederiz.
+using Microsoft.AspNetCore.Authentication.Cookies;
+//Bu sayede Appsettings'i hallederiz.
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,17 @@ builder.Services.AddScoped<IService<Genre, GenreModel>, GenreService>();
 builder.Services.AddScoped<IService<User, UserModel>, UserService>();
 
 
+//Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Users/Login";
+        options.AccessDeniedPath = "/Users/Login";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.SlidingExpiration = true;
+    }
+    );
+
 
 
 var app = builder.Build();
@@ -51,6 +63,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+//Authentication:
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

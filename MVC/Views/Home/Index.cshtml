@@ -1,10 +1,11 @@
 ﻿@{
     ViewData["Title"] = "BooksAPP Home Page";
+
+    var userName = User.Identity.IsAuthenticated ? User.Identity.Name : string.Empty;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to the @AppSettings.Title</h1>
-    <p>21243510002</p>
+    <h1 class="display-4">Welcome to the @AppSettings.Title @userName</h1>
     <p>@AppSettings.Description</a>.</p>
     <p>Developed by @AppSettings.Developer</p>
     <p>Student Id @AppSettings.Student_Number</p>

@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
-using BLL.Controllers.Bases;
+﻿using BLL.Controllers.Bases;
 using BLL.DAL;
 using BLL.Models;
-using BLL.Services;
 using BLL.Services.Bases;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MVC.Controllers
 {
@@ -19,21 +18,18 @@ namespace MVC.Controllers
             _userService = userService;
         }
 
-
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Login(UserModel user)
+        public async Task<IActionResult> Login(UserModel user)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-
                 var userModel = _userService.Query().SingleOrDefault(u => u.Record.UserName == user.Record.UserName &&
                     u.Record.Password == user.Record.Password && u.Record.IsActive);
-
                 if (userModel is not null)
                 {
                     List<Claim> claims = new List<Claim>()
@@ -44,16 +40,20 @@ namespace MVC.Controllers
                     };
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
-                    HttpContext.SignInAsync(principal, new AuthenticationProperties()
+                    await HttpContext.SignInAsync(principal, new AuthenticationProperties()
                     {
                         IsPersistent = true
                     });
                     return RedirectToAction("Index", "Home");
-
-
                 }
-                return View();
             }
+            return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
