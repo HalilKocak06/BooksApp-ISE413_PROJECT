@@ -17,7 +17,8 @@ namespace BLL.Models
         public string Surname => Record.Surname;
 
         [DisplayName("Full Name")]
-        public string FullName => $"{Record.Name} {Record.Surname}".Trim();
+        public string NameAndSurname => Record.Name + " " + Record.Surname;
+        //public string FullName => $"{Record.Name} {Record.Surname}".Trim();
 
         [DisplayName("Number of Books")]
         public int NumberOfBooks => Record.Books?.Count ?? 0; // Yazarın kitaplar listesinin uzunluğunu alır ve yazarın kaç kitabı olduğunu gösterir

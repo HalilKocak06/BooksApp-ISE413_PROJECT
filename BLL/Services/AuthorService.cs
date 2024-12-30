@@ -44,10 +44,6 @@ namespace BLL.Services
 
             record.Name = record.Name.Trim();  //Boşlukları twmizler.
 
-            if (string.IsNullOrWhiteSpace(record.Name))  //Şimdi buradaki olay şu : Tabikide Book.cs'de zaten gereklilikleri giriyoruz ama o SaveChanges() zamanında çalıştığı için error almamak adına burada bunu yapmamız lazım.
-                return Error("Author name cannot be empty!");
-
-
             _db.Authors.Add(record);
             _db.SaveChanges();
             return Success("Author is created successfully");
@@ -75,6 +71,7 @@ namespace BLL.Services
             //    return Error("Author Not found");
             //if (entity.Books != null && entity.Books.Count > 0)
             //    return Error("There is a book exists!!")
+
             var entity = _db.Authors.Include(b => b.Books).SingleOrDefault(a => a.Id == id);
             if (entity.Books.Any()) // Count > 0
                 return Error("Author has relational pets!");

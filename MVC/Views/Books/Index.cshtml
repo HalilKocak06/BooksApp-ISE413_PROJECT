@@ -65,6 +65,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Author)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Genre) @*GENRE'Yİ GÖSTERMEK İÇİN EKLEDİM.*@
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -88,6 +91,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Genre ) @*GENRE'Yİ GÖSTERMEK İÇİN.*@
                             </td>
                             <td class="text-end w-25">
                                 @* HTML:*@

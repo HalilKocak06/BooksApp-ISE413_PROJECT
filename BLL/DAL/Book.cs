@@ -21,6 +21,7 @@ namespace BLL.DAL
 
         public DateTime? PublishDate { get; set; }  //nullable olabilir ...
 
+        [Required]
         public decimal Price { get; set; }
 
         public bool IsTopSeller { get; set; }
@@ -29,7 +30,7 @@ namespace BLL.DAL
 
         public Author Author { get; set; } //navigational category.
 
-        public ICollection<BookGenre> BookGenre { get; set; }
+        public List<BookGenre> BookGenre { get; set; }
 
     }
 }
