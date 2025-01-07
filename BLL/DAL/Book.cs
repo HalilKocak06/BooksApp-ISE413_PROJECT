@@ -17,6 +17,7 @@ namespace BLL.DAL
         [StringLength(150)]
         public string Name { get; set; }
 
+        
         public short NumberOfPages { get; set; }
 
         public DateTime? PublishDate { get; set; }  //nullable olabilir ...

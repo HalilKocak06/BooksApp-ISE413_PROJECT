@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,8 +39,9 @@ namespace BLL.Models
         [DisplayName("Author Name and Surname")]
         public string AuthorNameAndSurname => $"{Record.Author?.Name} {Record.Author?.Surname}".Trim(); // Name+Surname
 
-        public string Genre => string.Join("<br>", Record.BookGenre?.Select(bg => bg.Genre?.Name + " " )); // + bg.Genre?.Surname, Bende Surname yok hocaya sor.
+        public string Genre => string.Join(",", Record.BookGenre?.Select(bg => bg.Genre?.Name + " " )); // + bg.Genre?.Surname, Bende Surname yok hocaya sor.
         [DisplayName("Genres")]
+
         public List<int> GenreIds
         {
             get => Record.BookGenre?.Select(bg => bg.GenreId).ToList();
